@@ -41,4 +41,22 @@ def visualize_detections(
     pyplot.axis("off")
     pyplot.imshow(image)
     ax = pyplot.gca()
+    for box, _cls, score in zip(boxes, classes, scores):
+        text = '{}: {:.2f}'.format(_cls, score)
+        x1, y1, x2, y2 = box
+        width, height = x2 - x1, y2 - y1
+        patch = pyplot.Rectangle(
+            (x1, y1), width, height, fill=False, edgecolor=color, linewidth=linewidth
+        )
+        ax.add_patch(patch)
+        ax.text(
+            x1,
+            y1,
+            text,
+            bbox={'facecolor': color, 'alpha': 0.4},
+            clip_box=ax.clipbox,
+            clip_on=True
+        )
+    pyplot.show()
+    return ax
 
